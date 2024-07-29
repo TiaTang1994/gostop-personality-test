@@ -173,7 +173,29 @@
             preamble: '<h3>个性测验</h3><p>下面是一些描述人们性格特点的句子，请根据每个句子与您的性格相符程度点选相应的数字。每个人的性格各不相同，所以答案没有对错之分，请根据您的实际情况作答。</p>',
             button_label:  '提交'
         };
-
+            // 规则说明页
+        var instructions = {
+            type: 'html-keyboard-response',
+            stimulus: `
+                <h3>行为实验指导书</h3>
+                <p>尊敬的参与者：</p>
+                <p>感谢您参与本次心理行为实验。本实验旨在研究个体在接收特定信号时的反应速度与准确性。请在实验开始前仔细阅读本指导书，并在有任何疑问时向实验人员咨询。</p>
+                <p><strong>实验流程：</strong></p>
+                <p>1. <strong>准备阶段：</strong>实验开始前，您将会看到一个加号（+）在屏幕中央显示，作为准备信号。</p>
+                <p>2. <strong>信号呈现：</strong>在准备信号之后，屏幕将展示一组两对随机8位数。如果两组数字完全相同，这表示“GO”信号；如果不相同，则表示“STOP”信号。信号将显示后很快消失。</p>
+                <p>3. <strong>反应阶段：</strong></p>
+                <p>- 若接收到“GO”信号，请立即按下空格键以作出反应。</p>
+                <p>- 若接收到“STOP”信号，请保持静止，不要按下任何键。</p>
+                <p>4. <strong>间隔阶段：</strong>信号消失后，将有一个随机的试验间间隔，在此期间，请保持注意力集中，准备接收下一个信号。</p>
+                <p><strong>注意事项：</strong></p>
+                <p>- 请在整个实验过程中保持身体舒适，避免不必要的移动。</p>
+                <p>- 请尽量保持反应的迅速和准确。</p>
+                <p>- 如果您在实验过程中有任何疑问或不适，请立即告知实验人员。</p>
+                <p><strong>实验结束：</strong> 完成所有实验组后，实验将自动结束。</p>
+                <p>祝您实验愉快！</p>
+                <p>按下键盘任意键以开始实验。</p>
+            `
+        };
              // 行为实验
              function createStimulus() {
             var num1 = Math.floor(10000000 + Math.random() * 90000000).toString();
@@ -236,12 +258,23 @@
             timeline: trials
         };
 
+        // 结束语页
+        var ending = {
+            type: 'html-keyboard-response',
+            stimulus: `
+                <h3>本次实验结束</h3>
+                <p>感谢您的参与与配合，【毕得了业】团队祝您万事顺意，所遇皆所愿~</p>
+            `
+        };
+
         var trial = {
             timeline: [
                 cover,
                 info_collection,
                 personality_test,
-                behaviorExperiment
+                instructions,
+                behaviorExperiment,
+                ending
             ],
             title: 'My questionnaire',
             button_label_next: 'Continue',
