@@ -12,41 +12,10 @@
     <script src="https://cdn.jsdelivr.net/npm/jspsych@6.3.1/plugins/jspsych-survey-multi-select.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspsych@6.3.1/plugins/jspsych-survey-text.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspsych@6.3.1/plugins/jspsych-html-keyboard-response.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/jspsych@6.3.1/css/jspsych.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/jspsych@6.3.1/plugins/jspsych-survey-html-form.js"></script>
+    <link href="styles.css" rel="stylesheet" type="text/css">
     <style>
-        .content {
-            text-align: left;
-            font-family: Arial, sans-serif;
-            margin: 0 auto;
-            padding: 20px;
-            max-width: 600px;
-        }
-        .content h2 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-        .content p, .content h3, .content blockquote {
-            margin-bottom: 10px;
-        }
-        .content ul, .content ol {
-            margin-bottom: 20px;
-        }
-        .content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        .content table, .content th, .content td {
-            border: 1px solid #ddd;
-        }
-        .content th, .content td {
-            padding: 8px;
-            text-align: left;
-        }
-        .highlight {
-            color: rgb(216, 9, 9);
-        }
-    </style>
+</style>
 </head>
 <body>
     <div id="jspsych-target"></div>
@@ -92,39 +61,45 @@
         };
 
         var info_collection = {
-            type: 'html-button-response',
-            stimulus: `
-                <div class="content">
-                    <h3>用户研究信息搜集</h3>
-                    <p class="highlight">为了确保我们的研究结果准确且具有代表性，我们需要收集一些基本信息。请花几分钟时间完成以下信息搜集表。</p>
-                    <h4>基本信息</h4>
-                    <ul>
-                        <li>编号: <input type="text" name="number"></li>
-                        <li>年龄: <input type="text" name="age"></li>
-                        <li>性别:
-                            <input type="radio" name="gender" value="male"> 男
-                            <input type="radio" name="gender" value="female"> 女
-                        </li>
-                        <li>职业: <input type="text" name="occupation"></li>
-                        <li>教育水平:
-                             <ul>
-                            <li><input type="radio" name="education" value="高中"> 高中</li>
-                             <li><input type="radio" name="education" value="大学本科"> 大学本科</li>
-                             <li><input type="radio" name="education" value="硕士或以上"> 硕士或以上</li>
-                             </ul>
-                        </li>
-                    </ul>
-                    <h4>联系信息</h4>
-                    <ul>
-                        <li>电子邮件 (用于发送研究结果和感谢信): <input type="text" name="email"></li>
-                        <li>电话号码 (可选，仅用于紧急联系或进一步研究跟进): <input type="text" name="phone"></li>
-                    </ul>
-                    <h4>隐私声明</h4>
-                    <p>我们重视您的隐私。您提供的所有信息将严格保密，仅用于本次研究目的。我们将不会与任何第三方分享您的个人信息。</p>
-                </div>
-            `,
-            choices: ['提交'],
-        };
+    type: 'survey-html-form',
+    html: `
+        <div class="content">
+            <h3>用户研究信息搜集</h3>
+            <p class="highlight">为了确保我们的研究结果准确且具有代表性，我们需要收集一些基本信息。请花几分钟时间完成以下信息搜集表。</p>
+            <h4>基本信息</h4>
+            <ul>
+                <li>编号: <input type="text" name="number"></li>
+                <li>年龄: <input type="text" name="age"></li>
+                <li>性别:
+                    <input type="radio" name="gender" value="male"> 男
+                    <input type="radio" name="gender" value="female"> 女
+                </li>
+                <li>职业: <input type="text" name="occupation"></li>
+                <li>教育水平:
+                     <ul>
+                    <li><input type="radio" name="education" value="高中"> 高中</li>
+                     <li><input type="radio" name="education" value="大学本科"> 大学本科</li>
+                     <li><input type="radio" name="education" value="硕士或以上"> 硕士或以上</li>
+                     </ul>
+                </li>
+            </ul>
+            <h4>联系信息</h4>
+            <ul>
+                <li>电子邮件 (用于发送研究结果和感谢信): <input type="text" name="email"></li>
+                <li>电话号码 (可选，仅用于紧急联系或进一步研究跟进): <input type="text" name="phone"></li>
+            </ul>
+            <h4>隐私声明</h4>
+            <p>我们重视您的隐私。您提供的所有信息将严格保密，仅用于本次研究目的。我们将不会与任何第三方分享您的个人信息。</p>
+        </div>
+        `,
+        button_label: '提交',
+    on_finish: function(data) {
+        // 记录info_collection数据
+        var response = jsPsych.data.get().values().pop().responses;
+        jsPsych.data.addProperties({info_data: response});
+    }
+};
+
 
         var personality_test = {
             type: 'survey-multi-choice',
@@ -181,16 +156,14 @@
                 <p>尊敬的参与者：</p>
                 <p>感谢您参与本次心理行为实验。本实验旨在研究个体在接收特定信号时的反应速度与准确性。请在实验开始前仔细阅读本指导书，并在有任何疑问时向实验人员咨询。</p>
                 <p><strong>实验流程：</strong></p>
-                <p>1. <strong>准备阶段：</strong>实验开始前，您将会看到一个加号（+）在屏幕中央显示，作为准备信号。</p>
-                <p>2. <strong>信号呈现：</strong>在准备信号之后，屏幕将展示一组两对随机8位数。如果两组数字完全相同，这表示“GO”信号；如果不相同，则表示“STOP”信号。信号将显示后很快消失。</p>
-                <p>3. <strong>反应阶段：</strong></p>
-                <p>- 若接收到“GO”信号，请立即按下空格键以作出反应。</p>
-                <p>- 若接收到“STOP”信号，请保持静止，不要按下任何键。</p>
-                <p>4. <strong>间隔阶段：</strong>信号消失后，将有一个随机的试验间间隔，在此期间，请保持注意力集中，准备接收下一个信号。</p>
+                <li>1. <strong>准备阶段：</strong>实验开始前，您将会看到一个加号（+）在屏幕中央显示，作为准备信号。</li>
+                <li>2. <strong>信号呈现：</strong>在准备信号之后，屏幕将展示一组两对随机8位数。如果两组数字完全相同，这表示“GO”信号；如果不相同，则表示“STOP”信号。信号将显示后很快消失。</li>
+                <li>3. <strong>反应阶段：</strong>若接收到“GO”信号，请立即按下空格键以作出反应；若接收到“STOP”信号，请保持静止，不要按下任何键。</li>
+                <li>4. <strong>间隔阶段：</strong>信号消失后，将有一个随机的试验间间隔，在此期间，请保持注意力集中，准备接收下一个信号。</li>
                 <p><strong>注意事项：</strong></p>
-                <p>- 请在整个实验过程中保持身体舒适，避免不必要的移动。</p>
-                <p>- 请尽量保持反应的迅速和准确。</p>
-                <p>- 如果您在实验过程中有任何疑问或不适，请立即告知实验人员。</p>
+                <li>- 请在整个实验过程中保持身体舒适，避免不必要的移动。</li>
+                <li>- 请尽量保持反应的迅速和准确。</li>
+                <li>- 如果您在实验过程中有任何疑问或不适，请立即告知实验人员。</li>
                 <p><strong>实验结束：</strong> 完成所有实验组后，实验将自动结束。</p>
                 <p>祝您实验愉快！</p>
                 <p>按下键盘任意键以开始实验。</p>
@@ -268,30 +241,35 @@
         };
 
         var trial = {
-            timeline: [
-                cover,
-                info_collection,
-                personality_test,
-                instructions,
-                behaviorExperiment,
-                ending
-            ],
-            title: 'My questionnaire',
-            button_label_next: 'Continue',
-            button_label_back: 'Previous',
-            button_label_finish: 'Submit',
-            show_question_numbers: 'onPage'
-        };
-        
+    timeline: [
+        cover,
+        info_collection,
+        personality_test,
+        instructions,
+        behaviorExperiment,
+        ending
+    ],
+    title: 'My questionnaire',
+    button_label_next: 'Continue',
+    button_label_back: 'Previous',
+    button_label_finish: 'Submit',
+    show_question_numbers: 'onPage'
+};
 
-        jsPsych.init({
-            timeline: [trial],
-            display_element: 'jspsych-target',
-            override_safe_mode: true,  // 覆盖安全模式
-            on_finish: function(data){
-                jsPsych.data.displayData();
-            }
-        });
+jsPsych.init({
+    timeline: [trial],
+    display_element: 'jspsych-target',
+    override_safe_mode: true,
+    on_finish: function() {
+        var data = jsPsych.data.get().json();
+        console.log(data); // 添加这一行来打印数据
+        var resultElement = document.createElement('div');
+        resultElement.innerHTML = '<h3>您的操作数据</h3><pre>' + data + '</pre>';
+        document.getElementById('jspsych-target').appendChild(resultElement);
+        jsPsych.data.displayData();
+    }
+});
+
     </script>
 </body>
 </html>

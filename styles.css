@@ -1,0 +1,75 @@
+/* 全局样式 */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: white(0, 0%, 100%, 0.943);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* 更改为顶部对齐 */
+}
+
+/* jspsych-target容器 */
+#jspsych-target {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* 更改为顶部对齐 */
+    align-items: center;
+    width: 80%;
+    max-width: 800px;
+    padding: 20px;
+    background: white;
+    max-height: 80vh; /* 限制最大高度，使其不超过视口高度的80% */
+}
+
+/* 表单部分样式 */
+.form-section {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-section h3 {
+    margin-bottom: 10px;
+}
+
+.form-section p {
+    margin: 5px 0;
+}
+
+.form-section input, .form-section label {
+    margin-bottom: 5px;
+}
+
+.content th, .content td {
+    padding: 8px;
+    text-align: left;
+}
+
+.highlight {
+    color: rgb(216, 9, 9);
+}
+
+.form-section button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-section button:hover {
+    background-color: #0056b3;
+}
+
+/* 中心对齐样式 */
+h3, p {
+    text-align: center;
+}
+
+/* 去除所有元素的聚焦样式 */
+* {
+    outline: none; /* 去除 outline */
+}
