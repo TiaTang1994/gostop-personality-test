@@ -94,9 +94,11 @@
         `,
         button_label: '提交',
     on_finish: function(data) {
-        // 记录info_collection数据
-        var response = jsPsych.data.get().values().pop().responses;
-        jsPsych.data.addProperties({info_data: response});
+        if (data.response) {
+            jsPsych.data.addProperties(data.response); // 直接使用 data.response 保存数据
+        } else {
+            console.error("No responses data found.");
+        }
     }
 };
 
@@ -262,11 +264,11 @@ jsPsych.init({
     override_safe_mode: true,
     on_finish: function() {
         var data = jsPsych.data.get().json();
-        console.log(data); // 添加这一行来打印数据
+        console.log(data); // 打印数据到控制台
         var resultElement = document.createElement('div');
         resultElement.innerHTML = '<h3>您的操作数据</h3><pre>' + data + '</pre>';
         document.getElementById('jspsych-target').appendChild(resultElement);
-        jsPsych.data.displayData();
+        jsPsych.data.displayData(); // 调用 jsPsych 的 displayData 方法显示数据
     }
 });
 
